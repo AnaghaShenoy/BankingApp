@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 // make this class as a spring MVC Rest controller
 @RequestMapping("/api/accounts") // passing base URL for all rest APIs within this controller
@@ -34,6 +36,18 @@ public class AccountController {
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
         // @PathVariable is used to bind template path variable to argument
         AccountDto accountDto = accountService.getAccountById(id);
+        return ResponseEntity.ok(accountDto);
+    }
+
+    // Deposit REST API
+    @PutMapping("/{id}/deposit") // map incoming HTTP PUT requests
+    public ResponseEntity<AccountDto> deposit(@PathVariable Long id,
+                                              @RequestBody Map<String, Double> request) {
+        // @PathVariable - bind value of template URI variable({id}) to method argument(Long id)
+        // @RequestBody - maps the request json body to Map java object
+        // map is created with amount in a request body
+        Double amount = request.get("amount"); // as it fetches data from deposit method
+        AccountDto accountDto = accountService.deposit(id, amount);
         return ResponseEntity.ok(accountDto);
     }
 }
