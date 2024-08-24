@@ -10,6 +10,9 @@ import com.learning.banking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 // to automatically create spring bean and inject the dependencies for this class
 public class AccountServiceImpl implements AccountService {
@@ -75,5 +78,16 @@ public class AccountServiceImpl implements AccountService {
         Account savedAccount = accountRepository.save(account);
 
         return AccountMapper.mapToAccountDto(savedAccount);
+    }
+
+    @Override
+    public List<AccountDto> getAllAccounts() {
+        // findAll() returns List of accounts stored in var:accounts
+        List<Account> accounts = accountRepository.findAll();
+        // converting List of accounts into AccountDto
+        // accounts->list | mapping entity to dto (functional interface)
+        return accounts.stream().map( (account) -> AccountMapper.mapToAccountDto(account) )
+                .collect(Collectors.toList());
+        //  AccountMapper.mapToAccountDto(account) => mapping entity to dto
     }
 }
