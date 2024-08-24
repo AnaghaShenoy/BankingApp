@@ -77,4 +77,11 @@ public class AccountController {
         accountService.deleteAccount(id);
         return ResponseEntity.ok("Account deleted successfully");
     }
+
+    // ChatGPT's code
+//    @PostMapping("/accounts")
+//    public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountDto accountDto) {
+//        AccountDto createdAccount = accountService.createAccount(accountDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
+//    }
 }
